@@ -2,9 +2,10 @@ import json
 import requests
 import time
 import urllib
+import re
+import wolframalpha
 
 WOLFRAM_TOKEN = "9HL4GP-LLTREW7G52"
-WOLFRAM_URL = "http://api.wolframalpha.com/v1/result?appid={}".format(WOLFRAM_TOKEN)
 TOKEN = "397055226:AAEqsVgAmc3URoobKaIceVyIGicp38zuutc"
 URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
@@ -50,7 +51,9 @@ def echo_all(updates):
             if text.startswith("/start"):
                 send_message("Hey " + update["message"]["from"]["first_name"], chat)
                 break
-            elif text == "/ask":
+            elif text.startswith("/ask"):
+                text = re.sub("/ask ", "", text, count=1)
+                send_message("Loading result for: " + text, chat)
                 text = wolfram_checker(text)
             send_message(text, chat)
         except Exception as e:
@@ -62,8 +65,12 @@ def send_message(text, chat_id):
     get_url(url)
 
 def wolfram_checker(text):
-    wolfram_url = WOLFRAM_URL + "&" + text
-    print(wolfram_url)
+    client = wolframalpha.Client(WOLFRAM_TOKEN)
+    res = client.query(text)
+    answer = ""
+    for pod in res.pods:
+        answer += str(pod.text) + "\n"
+    return answer
 
 def main():
     last_update_id = None
