@@ -8,7 +8,8 @@ def ask(text):
     try:
         client = wolframalpha.Client(TOKEN)
         res = client.query(text)
-    except Exception:
+    except Exception as e:
+        print(e)
         return "Could not connect to wolframAlpha to find the answer to: '" + text + "'"
     answer = ""
     try:
