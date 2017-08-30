@@ -1,4 +1,4 @@
-import checkerBot, echobot, wolframBot
+import checkerBot, wolframBot, googleBot
 from time import sleep
 
 def inlineCommand(updates):
@@ -9,6 +9,8 @@ def inlineCommand(updates):
                 text = "Hey " + update["message"]["from"]["first_name"]
             elif text.startswith("/ask"):
                 text = wolframBot.ask(text)
+            elif text.startswith("/google"):
+                text = googleBot.googleSearch(text)
             checkerBot.send_message(text, chat_id)
         except Exception as e:
             print(e)
