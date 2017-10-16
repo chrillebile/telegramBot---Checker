@@ -47,7 +47,7 @@ def echo_all(updates):
         try:
             text = update["message"]["text"]
             chat = update["message"]["chat"]["id"]
-            #TODO: Fixa så att det bara går att starta en gång, genom att skaffa en databas där alla registrerade användare finns.
+            #TODO: Fixa så att det bara går att starta en gång, genom att ex. skaffa en databas där alla registrerade användare finns.
             if text.startswith("/start"):
                 send_message("Hey " + update["message"]["from"]["first_name"], chat)
                 break
