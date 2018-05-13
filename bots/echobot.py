@@ -55,6 +55,8 @@ def echo_all(updates):
                 text = re.sub("/ask ", "", text, count=1)
                 send_message("Loading result for: " + text, chat)
                 text = wolfram_checker(text)
+            response = bot.get_response(text)
+            print(response)
             send_message(text, chat)
         except Exception as e:
             print(e)
